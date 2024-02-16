@@ -45,6 +45,47 @@
 						</table>
 						</div>
 					<% } %>
+					<form action="addUser" method="post">
+						<div class="field is-horizontal">
+						<div class="field-label is-normal">
+						<label class="label">Add New User</label>
+						</div>
+						<div class="field-body">
+						<div class="field">
+						<p class="control is-expanded">
+						<input name="first_name" class="input" type="text"
+						placeholder="First Name">
+						</p>
+						</div>
+						<div class="field">
+						<p class="control is-expanded">
+						<input name="last_name" class="input" type="text"
+						placeholder="Last Name">
+						</p>
+						</div>
+						<div class="field">
+						<p class="control is-expanded">
+						<input name="email" class="input" type="email"
+						placeholder="Email">
+						</p>
+						</div>
+						<div class="field">
+						<p class="control is-expanded">
+						<input name="password" class="input" type="password"
+						placeholder="Password">
+						</p>
+						</div>
+						<div class="field">
+						<button class="button is-link">
+						<span>Add</span>
+						<span class="icon is-small">
+						<i class="fas fa-user-plus"></i>
+						</span>
+						</button>
+						</div>
+						</div>
+						</div>
+						</form>
 				</div>
 			</div>
 		</section>
