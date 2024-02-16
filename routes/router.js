@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
 
 router.post('/addUser', async (req, res) => {
 	console.log("form submit");
-	console.log(req.body);
+	console.log(req.query);
 	try {
 	const success = await dbModel.addUser(req.body);
 	if (success) {
