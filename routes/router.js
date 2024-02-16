@@ -3,8 +3,6 @@ const database = include('databaseConnection');
 // const dbModel = include('databaseAccessLayer');
 const dbModel = include('staticData');
 
-app.use(express.urlencoded({ extended: false }));
-
 router.get('/', async (req, res) => {
 	console.log("page hit");
 	
