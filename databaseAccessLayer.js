@@ -22,6 +22,8 @@ async function getAllUsers() {
 const passwordPepper = "SeCretPeppa4MySal+";
 
 async function addUser(postData) {
+	console.log("postData: ", postData);
+	
 	let sqlInsertSalt = `
 		INSERT INTO web_user (first_name, last_name, email, password_salt)
 		VALUES (:first_name, :last_name, :email, sha2(UUID(),512));
