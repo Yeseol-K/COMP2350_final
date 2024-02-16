@@ -4,6 +4,7 @@ const dbModel = include('databaseAccessLayer');
 // const dbModel = include('staticData');
 
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
