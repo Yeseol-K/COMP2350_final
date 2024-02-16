@@ -4,9 +4,7 @@ const dbModel = include('databaseAccessLayer');
 // const dbModel = include('staticData');
 
 const express = require('express');
-const bodyParser = require('body-parser');
-const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
+router.use(express.urlencoded({ extended: true }));
 
 router.get('/', async (req, res) => {
 	console.log("page hit");
@@ -26,7 +24,7 @@ router.get('/', async (req, res) => {
 
 router.post('/addUser', async (req, res) => {
 	console.log("form submit");
-	console.log(req.body);
+	console.log("req.body log: ", req.body);
 	try {
 	const success = await dbModel.addUser(req.body);
 	if (success) {
