@@ -1,9 +1,9 @@
-const { getAllUsers, addUser, deleteUser } = require('../databaseAccessLayer')
-
 const router = require('express').Router();
 const database = include('databaseConnection');
-const dbModel = include('databaseAccessLayer');
-//const dbModel = include('staticData');
+// const dbModel = include('databaseAccessLayer');
+const dbModel = include('staticData');
+
+app.use(express.urlencoded({ extended: false }));
 
 router.get('/', async (req, res) => {
 	console.log("page hit");

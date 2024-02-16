@@ -9,7 +9,7 @@ async function getAllUsers() {
 	
 	try {
 		const results = await database.query(sqlQuery);
-		console.log(results[0]);
+		console.log("results: ", results[0]);
 		return results[0];
 	}
 	catch (err) {
@@ -23,7 +23,7 @@ const passwordPepper = "SeCretPeppa4MySal+";
 
 async function addUser(postData) {
 	console.log("postData: ", postData);
-	
+
 	let sqlInsertSalt = `
 		INSERT INTO web_user (first_name, last_name, email, password_salt)
 		VALUES (:first_name, :last_name, :email, sha2(UUID(),512));
