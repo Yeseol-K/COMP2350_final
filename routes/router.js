@@ -39,4 +39,21 @@ router.post('/addUser', async (req, res) => {
 	}
 	});
 
+	router.get('/deleteUser', async (req, res) => {
+		console.log("delete user");
+		console.log(req.query);
+		let userId = req.query.id;
+		if (userId) {
+		const success = await dbModel.deleteUser(userId);
+		if (success) {
+		res.redirect("/");
+		}
+		else {
+		res.render('error', {message: 'Error writing to MySQL'});
+		console.log("Error writing to mysql");
+		console.log(err);
+		}
+		}
+		});
+
 module.exports = router;
