@@ -9,6 +9,7 @@ global.include = function(file) {
 
 
 const express = require('express');
+const bodyParser = require('body-parser');
 const database = include('databaseConnection');
 const router = include('routes/router');
 
