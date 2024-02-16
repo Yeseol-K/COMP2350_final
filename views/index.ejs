@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<link rel="stylesheet" href="bulma.min.css">
+		<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"> </script>
+	</head>
+	<body>
+		<section class="section">
+			<div class="maincolumns columns is-desktop is-vcentered">
+				<div class="column is-10 is-offset-1 notification is-info is-light box container">
+					<div class="title">
+						Web Users
+					</div>
+					<% if (locals.allUsers) { %>
+						<div class="table-container">
+						<table class="table is-bordered is-hoverable is-striped is-narrow">
+							<thead>
+							<tr>
+								<th> # </th>
+								<th> Firstname </th>
+								<th> Lastname </th>
+								<th> Email </th>
+								<th> &nbsp; </th>
+							</tr>
+							</thead>
+							<% let i=0; %>
+							<% for(i=0; i < allUsers.length; i++) { %>
+							<tr>
+								<td><%= allUsers[i].first_name %></td>
+								<td><%= allUsers[i].last_name %></td>
+								<td><%= allUsers[i].email %></td>
+								<td><a href="/deleteUser?id=<%= allUsers[i].web_user_id %>">
+									<span class="icon is-small">
+										<i class="fas fa-user-times"></i>
+									</span></a>
+								</td>
+							</tr>
+							<% } %>
+							<tfoot>
+								<tr> <td colspan="4">
+								There are <%= i %> users.
+								</td> </tr>
+							</tfoot>
+						</table>
+						</div>
+					<% } %>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>
