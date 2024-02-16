@@ -7,12 +7,6 @@ global.include = function(file) {
 	return require(abs_path('/' + file));
 }
 
-const app = express();
-app.set('view engine', 'ejs');
-
-app.use('/',router);
-app.use(express.static(__dirname + "/public"));
-app.use(express.urlencoded({extended: true}));
 
 const express = require('express');
 const database = include('databaseConnection');
@@ -41,6 +35,12 @@ async function printMySQLVersion() {
 const success = printMySQLVersion();
 
 
+const app = express();
+app.set('view engine', 'ejs');
+
+app.use('/',router);
+app.use(express.static(__dirname + "/public"));
+app.use(express.urlencoded({extended: true}));
 
 app.listen(port, () => {
 	console.log("Node application listening on port "+port);
