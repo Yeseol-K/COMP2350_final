@@ -43,7 +43,7 @@ router.post('/addUser', async (req, res) => {
 	});
 
 	router.get('/deleteUser', async (req, res) => {
-		console.log("delete user");
+		console.log("delete author");
 		console.log(req.query);
 		let userId = req.query.id;
 		if (userId) {
@@ -58,5 +58,49 @@ router.post('/addUser', async (req, res) => {
 		}
 		}
 		});
+
+		router.get('/showBooks', async(req, res) => {
+			const authorId = req.query.id;
+			if (authorId) {
+				const authorName = await dbModel.get_user_by_userId(authorId);
+				const success = await dbModel.showBooks(authorId);
+				console.log('showBooks: ', success);
+				res.render('showBooks', {allBooks: success, authorName});
+			}
+		})
+		
+		router.post('/addBook', async(req, res) => {
+			try {
+				const authorId = req.query;
+				const success = await dbModel.addBook(req.body, authorId);
+				if (success) {
+					res.redirect(`/showBooks?id=${authorId.id}`)
+				} else {
+					res.render('error', {message: "Error writing to MySQL"});
+					console.log("Error writing to MySQL");
+					}
+			} catch (err) {
+				res.render('error', {message: "Error writing to MySQL"});
+				console.log("Error writing to MySQL");
+				console.log(err);
+			}
+		})
+
+		router.get('/deleteBook', async(req, res) => {
+			console.log("delete Book");
+			console.log(req.query);
+			let bookId = req.query.id;
+			if (bookId) {
+			const success = await dbModel.deleteBook(bookId);
+			if (success) {
+			res.redirect("/");
+			}
+			else {
+			res.render('error', {message: 'Error writing to MySQL'});
+			console.log("Error writing to mysql");
+			console.log(err);
+			}
+			}
+		})
 
 module.exports = router;

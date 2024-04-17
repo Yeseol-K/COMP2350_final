@@ -10,7 +10,7 @@
 			<div class="maincolumns columns is-desktop is-vcentered">
 				<div class="column is-10 is-offset-1 notification is-info is-light box container">
 					<div class="title">
-						Web Users
+						Author
 					</div>
 					<% if (locals.allUsers) { %>
 						<div class="table-container">
@@ -20,7 +20,9 @@
 								<!-- <th> # </th> -->
 								<th> Firstname </th>
 								<th> Lastname </th>
-								<th> Email </th>
+								<th> Birth Date </th>
+								<th> # of Books </th>
+								<th> &nbsp; </th>
 								<th> &nbsp; </th>
 							</tr>
 							</thead>
@@ -29,16 +31,22 @@
 							<tr>
 								<td><%= allUsers[i].first_name %></td>
 								<td><%= allUsers[i].last_name %></td>
-								<td><%= allUsers[i].email %></td>
-								<td><a href="/deleteUser?id=<%= allUsers[i].web_user_id %>">
+								<td><%= allUsers[i].Birth_Date %></td>
+								<td><%= allUsers[i].num_of_books %></td>
+								<td><a href="/deleteUser?id=<%= allUsers[i].author_id %>">
 									<span class="icon is-small">
-										<i class="fas fa-user-times"></i>
+										<i class="fas fa-trash"></i>
+									</span></a>
+								</td>
+								<td><a href="/showBooks?id=<%= allUsers[i].author_id %>">
+									<span class="icon is-small">
+										<i class="fas fa-book"></i>
 									</span></a>
 								</td>
 							</tr>
 							<% } %>
 							<tfoot>
-								<tr> <td colspan="4">
+								<tr> <td colspan="5">
 								There are <%= i %> users.
 								</td> </tr>
 							</tfoot>
@@ -65,14 +73,8 @@
 						</div>
 						<div class="field">
 						<p class="control is-expanded">
-						<input name="email" class="input" type="email"
-						placeholder="Email">
-						</p>
-						</div>
-						<div class="field">
-						<p class="control is-expanded">
-						<input name="password" class="input" type="password"
-						placeholder="Password">
+						<input name="birth_date" class="input" type="text"
+						placeholder="Birth Date YYYY-MM-DD">
 						</p>
 						</div>
 						<div class="field">
