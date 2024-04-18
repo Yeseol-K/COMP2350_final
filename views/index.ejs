@@ -1,95 +1,99 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8"/>
-		<link rel="stylesheet" href="bulma.min.css">
-		<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"> </script>
-	</head>
-	<body>
-		<section class="section">
-			<div class="maincolumns columns is-desktop is-vcentered">
-				<div class="column is-10 is-offset-1 notification is-info is-light box container">
-					<div class="title">
-						Author
-					</div>
-					<% if (locals.allUsers) { %>
-						<div class="table-container">
-						<table class="table is-bordered is-hoverable is-striped is-narrow">
-							<thead>
-							<tr>
-								<!-- <th> # </th> -->
-								<th> Firstname </th>
-								<th> Lastname </th>
-								<th> Birth Date </th>
-								<th> # of Books </th>
-								<th> &nbsp; </th>
-								<th> &nbsp; </th>
-							</tr>
-							</thead>
-							<% let i=0; %>
-							<% for(i=0; i < allUsers.length; i++) { %>
-							<tr>
-								<td><%= allUsers[i].first_name %></td>
-								<td><%= allUsers[i].last_name %></td>
-								<td><%= allUsers[i].Birth_Date %></td>
-								<td><%= allUsers[i].num_of_books %></td>
-								<td><a href="/deleteUser?id=<%= allUsers[i].author_id %>">
-									<span class="icon is-small">
-										<i class="fas fa-trash"></i>
-									</span></a>
-								</td>
-								<td><a href="/showBooks?id=<%= allUsers[i].author_id %>">
-									<span class="icon is-small">
-										<i class="fas fa-book"></i>
-									</span></a>
-								</td>
-							</tr>
-							<% } %>
-							<tfoot>
-								<tr> <td colspan="5">
-								There are <%= i %> users.
-								</td> </tr>
-							</tfoot>
-						</table>
-						</div>
-					<% } %>
-					<form action="/addUser" method="post">
-						<div class="field is-horizontal">
-						<div class="field-label is-normal">
-						<label class="label">Add New User</label>
-						</div>
-						<div class="field-body">
-						<div class="field">
-						<p class="control is-expanded">
-						<input name="first_name" class="input" type="text"
-						placeholder="First Name">
-						</p>
-						</div>
-						<div class="field">
-						<p class="control is-expanded">
-						<input name="last_name" class="input" type="text"
-						placeholder="Last Name">
-						</p>
-						</div>
-						<div class="field">
-						<p class="control is-expanded">
-						<input name="birth_date" class="input" type="text"
-						placeholder="Birth Date YYYY-MM-DD">
-						</p>
-						</div>
-						<div class="field">
-						<button class="button is-link">
-						<span>Add</span>
-						<span class="icon is-small">
-						<i class="fas fa-user-plus"></i>
-						</span>
-						</button>
-						</div>
-						</div>
-						</div>
-						</form>
-				</div>
-			</div>
-		</section>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="bulma.min.css" />
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="maincolumns columns is-desktop is-vcentered">
+        <div class="column is-10 is-offset-1 notification is-info is-light box container">
+          <div class="title">Purchase Item</div>
+          <% console.log("hi")%> <% console.log("allItem")%> <% if (locals.allItem) { %>
+          <div class="table-container">
+            <table class="table is-bordered is-hoverable is-striped is-narrow">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Cost</th>
+                  <th>Quantity</th>
+                  <th>&nbsp;</th>
+                  <th>&nbsp;</th>
+                  <th>&nbsp;</th>
+                </tr>
+              </thead>
+              <% let i=0; %> <% for(i=0; i < allItem.length; i++) { %>
+              <tr>
+                <td><%= allItem[i].item_name %></td>
+                <td><%= allItem[i].item_description %></td>
+                <td><%= allItem[i].cost %></td>
+                <td><%= allItem[i].quantity %></td>
+                <td>
+                  <a href="/increase?id=<%= allItem[i].purchase_item_id %>">
+                    <span class="icon is-small"> <i class="fas fa-caret-square-up"></i> </span
+                  ></a>
+                </td>
+                <td>
+                  <a href="/decrease?id=<%= allItem[i].purchase_item_id %>">
+                    <span class="icon is-small"> <i class="fas fa-caret-square-down"></i> </span
+                  ></a>
+                </td>
+                <td>
+                  <a href="/deleteItem?id=<%= allItem[i].purchase_item_id %>">
+                    <span class="icon is-small"> <i class="fas fa-trash"></i> </span
+                  ></a>
+                </td>
+              </tr>
+              <% } %>
+              <tfoot>
+                <tr>
+                  <td colspan="7">There are <%= i %> items.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <% } %>
+          <form action="addItem" method="post">
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">Add New Purhcase Item</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <p class="control is-expanded">
+                    <input name="name" class="input" type="text" placeholder="Name" />
+                  </p>
+                </div>
+                <div class="field">
+                  <p class="control is-expanded">
+                    <input name="description" class="input" type="text" placeholder="Description" />
+                  </p>
+                </div>
+                <div class="field">
+                  <p class="control is-expanded">
+                    <input name="cost" class="input" type="text" placeholder="Cost" />
+                  </p>
+                </div>
+                <div class="field">
+                  <p class="control is-expanded">
+                    <input name="quantity" class="input" type="number" placeholder="Quantity" />
+                  </p>
+                </div>
+                <div class="field">
+                  <button class="button is-link">
+                    <span>Add</span>
+                    <span class="icon is-small">
+                      <i class="fas fa-user-plus"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </body>
 </html>

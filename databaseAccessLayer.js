@@ -1,180 +1,95 @@
-const database = include('/databaseConnection');
+const database = include("/databaseConnection");
 
-async function getAllUsers() {
-    let sqlQuery = `
-        SELECT 
-        author_id,
-        first_name,
-        last_name,
-        DATE_FORMAT(birth_date, '%M, %d %Y') AS 'Birth_Date', 
-        (SELECT COUNT(*) FROM book WHERE book.author_id = author.author_id) AS 'num_of_books' 
-        FROM author;
-    `;
-    
-    try {
-        const results = await database.query(sqlQuery);
-        console.log("-----------------------")
-        console.log("results: ", results[0]);
-        console.log("-----------------------")
-        return results[0];
-    }
-    catch (err) {
-        console.log("Error selecting from author table");
-        console.log(err);
-        return null;
-    }
+async function getAllItem() {
+  let sqlQuery = `
+	SELECT 
+    purchase_item_id,
+    item_name,
+    item_description,
+    FORMAT(cost, 4) AS cost,
+    quantity
+    FROM purchase_item;
+
+	`;
+
+  try {
+    const results = await database.query(sqlQuery);
+    //console.log(" re : ")
+    //console.log(results[0]);
+    return results[0];
+  } catch (err) {
+    console.log("Error selecting from puchase_item table");
+    console.log(err);
+    return null;
+  }
 }
 
-async function addUser(postData) {
-    console.log("postData: ", postData);
+const addItem = async (postData) => {
+  console.log("postData: ", postData);
 
-    let sqlInsertSalt = `
-        INSERT INTO author (first_name, last_name, birth_date)
-        VALUES (:first_name, :last_name, :birth_date);
-    `;
-
-    let params = {
-        first_name: postData.first_name,
-        last_name: postData.last_name,
-        birth_date: postData.birth_date,
-    };
-
-    console.log(sqlInsertSalt);
-
-    try {
-        const results = await database.query(sqlInsertSalt, params);
-        // console.log('result: ', results);
-        // let insertedID = results.insertId;
-        // let updatePasswordHash = `
-        //     UPDATE author
-        //     SET password_hash = sha2(concat(:password,:pepper,password_salt),512)
-        //     WHERE web_user_id = :userId;
-        // `;
-
-        // let params2 = {
-        //     userId: insertedID
-        // };
-
-        // console.log(updatePasswordHash);
-
-        // const results2 = await database.query(updatePasswordHash, params2);
-
-        return true;
-    }
-    catch (err) {
-        console.log(err);
-        return false;
-    }
-}
-
-async function deleteUser(webUserId) {
-    console.log('websUserId?: ', webUserId);
-    let sqlDeleteUser = `
-        DELETE FROM author
-        WHERE author_id = :userID
-    `;
-    let params = {
-        userID: webUserId
-    };
-    console.log(sqlDeleteUser);
-    try {
-        await database.query(sqlDeleteUser, params);
-        return true;
-    }
-    catch (err) {
-        console.log(err);
-        return false;
-    }
-}
-
-async function showBooks(authorId) {
-    let sqlQuery = `
-        SELECT *
-        FROM book
-        WHERE author_id = ${authorId};
+  let sqlInsertItem = `
+        INSERT INTO purchase_item (item_name, item_description, cost, quantity)
+        VALUES (?, ?, ?, ?);
     `;
 
-    try {
-        const results = await database.query(sqlQuery);
-        console.log("-----------------------")
-        console.log("book data: ", results[0]);
-        console.log("-----------------------")
-        return results[0];
-    }
-    catch (err) {
-        console.log("Error selecting from author table");
-        console.log(err);
-        return null;
-    }
-}
+  let params = [postData.item_name, postData.item_description, postData.cost, postData.quantity];
 
+  try {
+    const results = await database.query(sqlInsertItem, params);
+    console.log("Inserted item with ID:", results.insertId);
+    return results;
+  } catch (err) {
+    console.error("Error inserting into purchase_item table", err);
+    throw err;
+  }
+};
 
-async function addBook(newBook, authorId) {
-    console.log("postData: ", newBook, authorId);
-
-    let sqlInsertSalt = `
-        INSERT INTO book (title, description, ISBN, author_id)
-        VALUES (:title, :description, :ISBN, ${authorId.id});
+const deleteItem = async (itemId) => {
+  let sqlDeleteItem = `
+        DELETE FROM purchase_item WHERE purchase_item_id = ?;
     `;
 
-    let params = {
-        title: newBook.title,
-        description: newBook.description,
-        ISBN: newBook.ISBN,
-    };
+  try {
+    const results = await database.query(sqlDeleteItem, [itemId]);
+    return results.affectedRows > 0;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
 
-    console.log(sqlInsertSalt);
-
-    try {
-    
-        await database.query(sqlInsertSalt, params);
-
-        return true;
-    }
-    catch (err) {
-        console.log(err);
-        return false;
-    }
-}
-
-async function get_user_by_userId(userId) {
-    let sqlGetUser = `
-        SELECT first_name, last_name
-        FROM author
-        WHERE author_id = ${userId};
-    `
-
-    let params = {
-        userId: userId,
-    }
-
-    try {
-        const authorName = await database.query(sqlGetUser, params)
-        return authorName[0];
-    } catch(err) {
-        console.log(err)
-        return false;
-    }
-}
-
-async function deleteBook(bookId) {
-    console.log(bookId);
-    let sqlDeleteBook = `
-        DELETE FROM book
-        WHERE book_id = :bookId;
+const increaseItemQuantity = async (itemId) => {
+  let sqlUpdateQuery = `
+        UPDATE purchase_item
+        SET quantity = quantity + 1
+        WHERE purchase_item_id = ?;
     `;
-    let params = {
-        bookId: bookId,
-    };
-    console.log(sqlDeleteBook);
-    try {
-        await database.query(sqlDeleteBook, params);
-        return true;
-    }
-    catch (err) {
-        console.log(err);
-        return false;
-    }
-}
 
-module.exports = { getAllUsers, addUser, deleteUser, showBooks, addBook, deleteBook, get_user_by_userId };
+  try {
+    const results = await database.query(sqlUpdateQuery, [itemId]);
+    console.log("Increased quantity of item with ID:", itemId);
+    return results;
+  } catch (err) {
+    console.error("Error increasing item quantity in MySQL", err);
+    throw err;
+  }
+};
+
+const decreaseItemQuantity = async (itemId) => {
+  let sqlUpdateQuery = `
+        UPDATE purchase_item
+        SET quantity = quantity - 1
+        WHERE purchase_item_id = ?;
+    `;
+
+  try {
+    const results = await database.query(sqlUpdateQuery, [itemId]);
+    console.log("decreased quantity of item with ID:", itemId);
+    return results;
+  } catch (err) {
+    console.error("Error increasing item quantity in MySQL", err);
+    throw err;
+  }
+};
+
+module.exports = { getAllItem, addItem, deleteItem, increaseItemQuantity, decreaseItemQuantity };
