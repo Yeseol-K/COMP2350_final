@@ -29,8 +29,7 @@
                 <td><%= allBooks[i].ISBN %></td>
                 <td>
                   <a href="/deleteBook?id=<%= allBooks[i].book_id %>">
-                    <span class="icon is-small">
-                      <i class="fas fa-trash"></i> </span
+                    <span class="icon is-small"> <i class="fas fa-trash"></i> </span
                   ></a>
                 </td>
               </tr>
@@ -43,7 +42,7 @@
             </table>
           </div>
           <% } %>
-          <form action="/addBook?id=<%= allBooks[0].author_id %>" method="post">
+          <form action="/addBook?id=<%= authorId %>" method="post">
             <div class="field is-horizontal">
               <div class="field-label is-normal">
                 <label class="label">Add New Book</label>
