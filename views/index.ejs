@@ -24,7 +24,7 @@
                   <th>&nbsp;</th>
                 </tr>
               </thead>
-              <% let i=0; %> <% for(i=0; i < allItem.length; i++) { %>
+              <% let totalCost = 0; %> <% for(let i=0; i < allItem.length; i++) { %>
               <tr>
                 <td><%= allItem[i].item_name %></td>
                 <td><%= allItem[i].item_description %></td>
@@ -46,10 +46,10 @@
                   ></a>
                 </td>
               </tr>
-              <% } %>
+              <% totalCost += allItem[i].cost * allItem[i].quantity; %> <% } %>
               <tfoot>
                 <tr>
-                  <td colspan="7">There are <%= i %> items.</td>
+                  <td colspan="7">There are <%= allItem.length %> items for a total of $<%= totalCost %>.</td>
                 </tr>
               </tfoot>
             </table>
@@ -58,7 +58,7 @@
           <form action="addItem" method="post">
             <div class="field is-horizontal">
               <div class="field-label is-normal">
-                <label class="label">Add New Purhcase Item</label>
+                <label class="label">Add New Purchase Item</label>
               </div>
               <div class="field-body">
                 <div class="field">
