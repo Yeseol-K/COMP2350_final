@@ -20,7 +20,7 @@ const dbConfigLocal = {
   namedPlaceholders: true,
 };
 if (is_render) {
-  var database = mysql.createPool(dbConfigQoddi);
+  var database = mysql.createPool(dbConfigRender);
 } else {
   var database = mysql.createPool(dbConfigLocal);
 }
